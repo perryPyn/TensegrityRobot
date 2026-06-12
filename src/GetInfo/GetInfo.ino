@@ -15,18 +15,18 @@ int ServoID = 1;
 void loop()
 {
   int Pos;
-  if(sms_sts.FeedBack(1) != -1){
-    Pos = sms_sts.ReadPos(1);
-    
-    if(Pos != -1){
-      Serial.print("Position Servo");
-      Serial.println(Pos);
-    } else {
-      Serial.println("Erreur de lecture de position");
-    }
-  } else { 
+  if(sms_sts.FeedBack(ServoID) == -1){
     Serial.println("Erreur : Pas de communication avec le Servo");
+    return;
+  }
+
+  Pos = sms_sts.ReadPos(ServoID);
+  if(Pos == -1){
+    Serial.println("Erreur de lecture de position");
+    return;
   }
   
+  Serial.print("Position Servo : ");
+  Serial.println(Pos);
   delay(100);
 }
