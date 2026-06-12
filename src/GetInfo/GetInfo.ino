@@ -11,22 +11,16 @@ void setup()
   delay(1000);
 }
 
-int ServoID = 1;
 void loop()
 {
   int Pos;
-  if(sms_sts.FeedBack(ServoID) == -1){
-    Serial.println("Erreur : Pas de communication avec le Servo");
-    return;
-  }
+  Pos = sms_sts.ReadPos(1);
+  Serial.print("Position Servo 1 : ");
+  Serial.println(Pos);
+  delay(100);
 
-  Pos = sms_sts.ReadPos(ServoID);
-  if(Pos == -1){
-    Serial.println("Erreur de lecture de position");
-    return;
-  }
-  
-  Serial.print("Position Servo : ");
+  Pos = sms_sts.ReadPos(2);
+  Serial.print("Position Servo 2 : ");
   Serial.println(Pos);
   delay(100);
 }
