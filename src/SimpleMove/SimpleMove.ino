@@ -11,11 +11,11 @@ void setup()
 
 void loop()
 {
-  st.RegWritePosEx(2, 4095, 3400, 50);
+  st.RegWritePosEx(3, 4095, 3400, 50);
   st.RegWriteAction();
   delay(1884);
 
-  st.RegWritePosEx(2, 0, 3400, 50);
+  st.RegWritePosEx(3, 0, 3400, 50);
   st.RegWriteAction();
   delay(1884);
 }

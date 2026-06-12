@@ -2,7 +2,7 @@
 
 SMS_STS sms_sts;
 
-const int targetID = 2;
+const int targetID = 3;
 
 void setup()
 {
