@@ -6,6 +6,6 @@
 
 extern s16 targetPosition[3];
 
-void ecuatConsole(void);
+void getConsole(void);
 
 #endif

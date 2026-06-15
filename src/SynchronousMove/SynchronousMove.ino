@@ -8,8 +8,8 @@ byte ACC[2];
 
 void setup()
 {
-  Serial.begin(1000000);
-  st.pSerial = &Serial;
+  Serial1.begin(1000000);
+  st.pSerial = &Serial1;
   delay(1000);
   ID[0] = 1;   // Save the IDs of the servos that need to be controlled into the ID[]
   ID[1] = 2;   // Save the IDs of the servos that need to be controlled into the ID[]

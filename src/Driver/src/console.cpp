@@ -1,6 +1,6 @@
 #include "console.h"
 
-void ecuatConsole() {
+void getConsole() {
     if (Serial.available() > 0) {
         String ligne = Serial.readStringUntil('\n');
         ligne.trim();

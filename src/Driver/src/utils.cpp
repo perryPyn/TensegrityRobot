@@ -6,15 +6,10 @@ s16 targetPosition[3] = {0,0,0};
 
 void setup() {
 	init();
-    initServo();
+    initSerial();
 }
 
 void loop() {
-	ecuatConsole();
-
+	getConsole();
 	setPositions(targetPosition);
-
-	// getPosition(1);
-    // getPosition(2);
-    // getPosition(3);
 }

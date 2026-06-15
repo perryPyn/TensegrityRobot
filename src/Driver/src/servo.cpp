@@ -1,13 +1,20 @@
+#include "Arduino.h"
 #include <servo.h>
 
 SMS_STS st;
 
-void initServo() {
-  Serial1.begin(1000000); // Vers Carte
-  Serial.begin(115200);   // Vers PC
-  
-  st.pSerial = &Serial1;
-  delay(1000);
+void initSerial() {
+    Serial1.begin(1000000); // Vers Carte
+    Serial.begin(115200);   // Vers PC
+
+    st.pSerial = &Serial1;
+    delay(1000);
+}
+
+void hardReset() {
+  st.unLockEprom(254);
+  st.Reset(254);
+  st.LockEprom(254);
 }
 
 void setID(int targetID) {
@@ -18,14 +25,24 @@ void setID(int targetID) {
     ping(targetID);
 }
 
-void simpleMove(int ID) {
-  st.RegWritePosEx(ID, 4095, 3400, 50);
-  st.RegWriteAction();
-  delay(1884);
+void setMode(int targetID, int mode) {
+    delay(1000);
+    st.unLockEprom(targetID);
+    delay(1000);
+    st.writeByte(targetID, SMS_STS_MODE, mode);
+    delay(1000);
+    st.LockEprom(targetID);
+    delay(1000);
+}
 
-  st.RegWritePosEx(ID , 0, 3400, 50);
-  st.RegWriteAction();
-  delay(1884);
+void simpleMove(int ID) {
+    st.RegWritePosEx(ID, 4095, 3400, 50);
+    st.RegWriteAction();
+    delay(1884);
+
+    st.RegWritePosEx(ID , 0, 3400, 50);
+    st.RegWriteAction();
+    delay(1884);
 }
 
 void ping(int ID) { 
