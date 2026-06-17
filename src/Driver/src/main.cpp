@@ -3,12 +3,11 @@
 
 int main(void) {
 
-    setup();
+  setup();
+\
+  while (1) {
+    loop();
+  }
 
-    while (1) {
-        loop();
-        delay(300);
-    }
-
-    return 0;
+  return 0;
 }

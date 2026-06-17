@@ -2,8 +2,13 @@
 #define UTILS_H
 
 #include <Arduino.h>
+#include <INST.h>
+
+#define MAX_INCREMENT 4095
 
 void setup(void);
 void loop(void);
+
+void computePosition(float alpha, s16 position[3]);
 
 #endif

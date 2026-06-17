@@ -13,6 +13,4 @@ void getPosition(int ID);
 void setPosition(int ID, s16 Position);
 void setPositions(s16 Position[3]);
 
-void testMode2(void);
-
 #endif
