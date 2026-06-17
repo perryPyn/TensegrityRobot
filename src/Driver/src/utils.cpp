@@ -12,7 +12,7 @@ void setup() {
 
 void loop() {
   getConsole();
-  computePosition(alpha, position);
+  // computePosition(alpha, position);
 
   setPositions(position);
   delay(300);
