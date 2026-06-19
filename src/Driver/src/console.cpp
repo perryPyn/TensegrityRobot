@@ -1,4 +1,5 @@
 #include "console.h"
+#include "HardwareSerial.h"
 
 void getConsole() {
   if (Serial.available() > 0) {
@@ -20,9 +21,17 @@ void getConsole() {
       } else if (key == "p3") {
         position[2] = (s16)val;
         Serial.print("-> Position 3 : ");
+      } else if (key == "p4") {
+        position[3] = (s16)val;
+        Serial.print("-> Position 4 : ");
       } else if (key == "a") {
         alpha = (float)val;
-      } else {
+      } else if (key == "o") {
+        areServoSetup = true;
+        Serial.println("==== Exiting servo setup ====");
+      }
+
+      else {
         Serial.println("Error: Unknown Key");
       }
       Serial.println(val);
