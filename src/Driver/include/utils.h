@@ -11,4 +11,6 @@ void loop(void);
 
 void computePosition(float alpha, s16 position[4]);
 
+void demoAlpha(void);
+
 #endif

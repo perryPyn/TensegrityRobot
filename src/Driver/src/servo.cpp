@@ -28,10 +28,10 @@ void initServo(s16 offset[4]) {
     setPositions(position);\
     delay(200);
   }
-  offset[0] = getPosition(1);
-  offset[1] = getPosition(2);
-  offset[2] = getPosition(3);
-  offset[3] = getPosition(4);
+  offset[0] = position[0];
+  offset[1] = position[1];
+  offset[2] = position[2];
+  offset[3] = position[3];
 }
 
 void hardReset() {

@@ -1,10 +1,11 @@
 #include "utils.h"
+#include "Arduino.h"
 #include "console.h"
 #include "servo.h"
 
 float alpha = 0;
 s16 offset[4] = {0, 0, 0, 0};
-s16 position[4] = {2302, 2596, 2803, 0};
+s16 position[4] = {6500, 6700, 7000, 0};
 
 void setup() {
   init();
@@ -23,6 +24,8 @@ void loop() {
   computePosition(alpha, position);
 
   setPositions(position);
+
+  // demoAlpha();
   delay(2000);
 }
 
@@ -35,11 +38,11 @@ void computePosition(float alpha, s16 position[4]) {
   alpha *= PI / 180;
 
   float barrelRadius = 1;
-  float wireLength = 1;
+  float wireLength = 11;
 
   float epsilon = 0;
-  float plateRadius = 1;
-  float plateHeight = 1;
+  float plateRadius = 5;
+  float plateHeight = 10;
   float plateRadiusE = plateRadius - epsilon;
 
   float b = plateHeight - plateRadiusE * sin(alpha);
@@ -70,4 +73,11 @@ void computePosition(float alpha, s16 position[4]) {
   Serial.print(" | ");
   Serial.print(position[3]);
   Serial.println(" | ");
+}
+
+void demoAlpha(){
+  alpha = -10;
+  delay(5000);
+  alpha = 10;
+  delay(5000);
 }
