@@ -22,7 +22,7 @@ void initSerial() {
 
 void initServoManual(s16 offset[4]) {
   Serial.println("==== Entering servo setup ====");
-  s16 position[4] = {0,0,0,0};
+  s16 position[4] = {0, 0, 0, 0};
 
   while (!areServoSetup) {
     getConsole(position);
@@ -110,6 +110,14 @@ void enableMultiLoop(u8 ID, u16 maxAngle) {
 
   st.LockEprom(ID);
   delay(20);
+}
+
+void enableTorque(u8 ID, u8 state) {
+  // st.writeByte(ID, SMS_STS_TORQUE_ENABLE, state);
+  st.EnableTorque(ID, state);
+
+  Serial.print("Torque : ");
+  Serial.println(st.readByte(ID, SMS_STS_TORQUE_ENABLE));
 }
 
 void simpleMove(u8 ID) {

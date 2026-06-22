@@ -11,21 +11,16 @@ void setup() {
   init();
   initSerial();
 
-  // enableMultiLoop(1, 3 * 4096);
-  // enableMultiLoop(2, 3 * 4096);
-  // enableMultiLoop(3, 3 * 4096);
-  // enableMultiLoop(4, 3 * 4096);
-
-  initServoManual(offset);
+  // initServoManual(offset);
+  enableTorque(4, 0);
 }
 
 void loop() {
   getConsole(position);
-  computePosition(alpha, position);
+  // computePosition(alpha, position);
 
   setPositions(position, offset);
-
-  getLoad(1);
+  getLoad(4);
 
   delay(2000);
 }

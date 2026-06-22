@@ -12,6 +12,7 @@ void hardReset(void);
 void setID(u8 ID);
 void setMode(u8 ID, int mode);
 void enableMultiLoop(u8 ID, u16 maxAngle);
+void enableTorque(u8 ID, u8 state);
 void simpleMove(u8 ID);
 void ping(u8 ID);
 s16 getPosition(u8 ID);
