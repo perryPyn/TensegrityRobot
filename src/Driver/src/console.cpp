@@ -1,7 +1,7 @@
 #include "console.h"
 #include "HardwareSerial.h"
 
-void getConsole() {
+void getConsole(s16 position[4]) {
   if (Serial.available() > 0) {
     String ligne = Serial.readStringUntil('\n');
     ligne.trim();
@@ -28,7 +28,6 @@ void getConsole() {
         alpha = (float)val;
       } else if (key == "o") {
         areServoSetup = true;
-        Serial.println("==== Exiting servo setup ====");
       }
 
       else {

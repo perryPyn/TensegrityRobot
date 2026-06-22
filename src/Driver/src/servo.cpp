@@ -1,6 +1,4 @@
 #include "servo.h"
-#include "Arduino.h"
-#include "HardwareSerial.h"
 #include "console.h"
 
 SMS_STS st;
@@ -22,16 +20,38 @@ void initSerial() {
   delay(100);
 }
 
-void initServo(s16 offset[4]) {
+void initServoManual(s16 offset[4]) {
+  Serial.println("==== Entering servo setup ====");
+  s16 position[4] = {0,0,0,0};
+
   while (!areServoSetup) {
-    getConsole();
-    setPositions(position);\
+    getConsole(position);
+    setPositionsRaw(position);
+    getLoad(1);
     delay(200);
   }
   offset[0] = position[0];
   offset[1] = position[1];
   offset[2] = position[2];
   offset[3] = position[3];
+
+  Serial.println("==== Exiting servo setup ====");
+}
+
+void initServoLoad(s16 offset[4]) {
+  Serial.println("==== Entering servo setup ====");
+  s16 position[4] = {0, 0, 0, 0};
+  while (!areServoSetup) {
+    getConsole(position);
+    setPositionsRaw(position);
+    delay(200);
+  }
+  offset[0] = position[0];
+  offset[1] = position[1];
+  offset[2] = position[2];
+  offset[3] = position[3];
+
+  Serial.println("==== Exiting servo setup ====");
 }
 
 void hardReset() {
@@ -75,9 +95,9 @@ void setMode(u8 ID, int mode) {
 }
 
 void enableMultiLoop(u8 ID, u16 maxAngle) {
-/*
-* Changes the maximum rotation angle of the designated servo
-*/
+  /*
+   * Changes the maximum rotation angle of the designated servo
+   */
 
   st.unLockEprom(ID);
   delay(20);
@@ -126,6 +146,20 @@ s16 getPosition(u8 ID) {
   return position;
 }
 
+s16 getLoad(u8 ID) {
+  /*
+   * Print the current load of target servo.
+   */
+
+  int load = st.ReadLoad(ID);
+  Serial.print("Load Servo ");
+  Serial.print(ID);
+  Serial.print(" : ");
+  Serial.println(load);
+
+  return load;
+}
+
 void setPosition(u8 ID, s16 Position) {
   /*
    * Move the motor to desired position with pre-determined Speed and ACC.
@@ -135,7 +169,7 @@ void setPosition(u8 ID, s16 Position) {
   st.RegWriteAction();
 }
 
-void setPositions(s16 Position[4]) {
+void setPositionsRaw(s16 Position[4]) {
   /*
    * Move the motors to desired positions with pre-determined Speed and ACC.
    */
@@ -145,4 +179,23 @@ void setPositions(s16 Position[4]) {
   byte ACC[4] = {acc, acc, acc, acc};
 
   st.SyncWritePosEx(ID, 4, Position, Speed, ACC);
+}
+
+void setPositions(s16 Position[4], s16 Offset[4]) {
+  /*
+   * Move the motors to desired positions with pre-determined Speed and ACC.
+   */
+
+  u8 ID[4] = {1, 2, 3, 4};
+  u16 Speed[4] = {speed, speed, speed, speed};
+  byte ACC[4] = {acc, acc, acc, acc};
+
+  s16 correctedPosition[4] = {
+      Position[0] + Offset[0],
+      Position[1] + Offset[1],
+      Position[2] + Offset[2],
+      Position[3] + Offset[3],
+  };
+
+  st.SyncWritePosEx(ID, 4, correctedPosition, Speed, ACC);
 }

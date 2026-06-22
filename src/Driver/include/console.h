@@ -4,10 +4,9 @@
 #include <INST.h>
 #include <HardwareSerial.h>
 
-extern s16 position[4];
 extern float alpha;
 extern bool areServoSetup;
 
-void getConsole(void);
+void getConsole(s16 position[4]);
 
 #endif
