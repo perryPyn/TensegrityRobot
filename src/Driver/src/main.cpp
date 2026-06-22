@@ -11,13 +11,12 @@ void setup() {
   init();
   initSerial();
 
-  // initServoManual(offset);
-  enableTorque(4, 0);
+  initServoManual(offset);
 }
 
 void loop() {
   getConsole(position);
-  // computePosition(alpha, position);
+  computePosition(alpha, position);
 
   setPositions(position, offset);
   getLoad(4);

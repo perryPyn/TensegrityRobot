@@ -38,21 +38,8 @@ void initServoManual(s16 offset[4]) {
   Serial.println("==== Exiting servo setup ====");
 }
 
-void initServoLoad(s16 offset[4]) {
-  Serial.println("==== Entering servo setup ====");
-  s16 position[4] = {0, 0, 0, 0};
-  while (!areServoSetup) {
-    getConsole(position);
-    setPositionsRaw(position);
-    delay(200);
-  }
-  offset[0] = position[0];
-  offset[1] = position[1];
-  offset[2] = position[2];
-  offset[3] = position[3];
-
-  Serial.println("==== Exiting servo setup ====");
-}
+// void initServoLoad(s16 offset[4]) {
+// }
 
 void hardReset() {
   st.unLockEprom(254);
@@ -80,7 +67,7 @@ void setID(u8 ID) {
 
 void setMode(u8 ID, int mode) {
   /*
-   * Change the mode between position (0) and speed (1/2) and stepper (3)
+   * Change the mode between position (0), speed (1/2) and stepper (3)
    * control.
    */
 
@@ -112,23 +99,19 @@ void enableMultiLoop(u8 ID, u16 maxAngle) {
   delay(20);
 }
 
-void enableTorque(u8 ID, u8 state) {
-  // st.writeByte(ID, SMS_STS_TORQUE_ENABLE, state);
-  st.EnableTorque(ID, state);
+// void enableTorque(u8 ID, u8 state) {
+//   // st.writeByte(ID, SMS_STS_TORQUE_ENABLE, state);
+//   st.EnableTorque(ID, state);
 
-  Serial.print("Torque : ");
-  Serial.println(st.readByte(ID, SMS_STS_TORQUE_ENABLE));
-}
-
-void simpleMove(u8 ID) {
-  st.WritePosEx(4, 0, speed, acc);
-  delay(5000);
-
-  st.WritePosEx(4, 8000, speed, acc);
-  delay(5000);
-}
+//   Serial.print("Torque : ");
+//   Serial.println(st.readByte(ID, SMS_STS_TORQUE_ENABLE));
+// }
 
 void ping(u8 ID) {
+  /*
+   * Check communication with servo with target ID
+   */
+
   int ID_ping = st.Ping(ID);
   if (ID_ping != -1) {
     Serial.print("Servo ID : ");
@@ -191,7 +174,7 @@ void setPositionsRaw(s16 Position[4]) {
 
 void setPositions(s16 Position[4], s16 Offset[4]) {
   /*
-   * Move the motors to desired positions with pre-determined Speed and ACC.
+   * Move the motors to desired positions with pre-determined Speed and ACC, knowing the offset.
    */
 
   u8 ID[4] = {1, 2, 3, 4};
