@@ -1,5 +1,5 @@
 # TensegrityRobot
-<img width="888" height="1152" alt="imageCoude" src="https://github.com/user-attachments/assets/cbadc10f-2ef4-4826-b198-b3c750269679" />
+<img width="444" height="576" alt="imageCoude" src="https://github.com/user-attachments/assets/cbadc10f-2ef4-4826-b198-b3c750269679" />
 
 ## 📖 À propos du projet
 L’objectif de ce projet est de créer un bras robotique poly-articulé basé sur le principe de tenségrité en faisant le design 3D et en le contrôlant avec des servomoteurs. Pour commencer nous avons donc réalisé un prototype d'articulation de type coude.
