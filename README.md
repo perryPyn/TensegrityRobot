@@ -16,6 +16,7 @@ L’objectif de ce projet est de créer un bras robotique poly-articulé basé s
 L'objectif est de définir l'orientation de la plateforme mobile selon deux axes de rotation :
 * **$\alpha$ :** Le Tangage 
 * **$\beta$ :** Le Roulis
+
 Connaissant le rayon de la base ($R = 47.5$ mm) et la hauteur au repos ($H = 12$ mm), le microcontrôleur calcule en temps réel la distance euclidienne exacte requise entre les 4 points d'ancrage de la base ($P_1$ à $P_4$) et ceux de la plateforme mobile ($B_1$ à $B_4$).
 
 Ces calculs permettent de déterminer la longueur de consigne de chaque câble que les servomoteurs doivent ensuite atteindre :
