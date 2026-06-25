@@ -3,9 +3,10 @@
 #include "servo.h"
 #include "utils.h"
 
-float alpha = 0;
+float alpha = 0, beta = 0;
 s16 offset[4] = {0, 0, 0, 0};
 s16 position[4] = {0, 0, 0, 0};
+s16 p5 = 0;
 
 void setup() {
   init();
@@ -15,14 +16,37 @@ void setup() {
 }
 
 void loop() {
-  getConsole(position);
-  computePosition(alpha, position);
+  handleAngleCommand();
+  computePosition(alpha, beta, position);
 
   setPositions(position, offset);
-  getLoad(4);
+  printPositions(position);
 
-  delay(2000);
+  delay(500);
 }
+
+/*---------------------------------------------------*/
+
+// s16 a[20];
+// s16 b[20];
+// int i = 0;
+
+// void setup() {
+//   init();
+//   initSerial();
+
+//   initServoManual(offset);
+//   demoAlphaBeta(20, a, b);
+// }
+
+// void loop() {
+//   computePosition(a[i], b[i], position);
+//   setPositions(position, offset);
+//   printPositions(position);
+
+//   i = (i+1)%20;
+//   delay(180);
+// }
 
 int main(void) {
 

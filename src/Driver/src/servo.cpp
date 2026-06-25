@@ -1,9 +1,11 @@
 #include "servo.h"
 #include "console.h"
+#include "utils.h"
 
 SMS_STS st;
 u16 speed = 1500;
-byte acc = 30;
+byte acc = 50;
+s16 precal[4] = {4600, 5100, 4700, 1100};
 
 bool areServoSetup = false;
 
@@ -22,18 +24,17 @@ void initSerial() {
 
 void initServoManual(s16 offset[4]) {
   Serial.println("==== Entering servo setup ====");
-  s16 position[4] = {0, 0, 0, 0};
+  s16 position[4] = {precal[0],precal[1],precal[2],precal[3]};
 
   while (!areServoSetup) {
-    getConsole(position);
+    handleServoCommand(position);
     setPositionsRaw(position);
-    getLoad(1);
     delay(200);
   }
-  offset[0] = position[0];
-  offset[1] = position[1];
-  offset[2] = position[2];
-  offset[3] = position[3];
+  offset[0] += position[0];
+  offset[1] += position[1];
+  offset[2] += position[2];
+  offset[3] += position[3];
 
   Serial.println("==== Exiting servo setup ====");
 }
@@ -43,8 +44,13 @@ void initServoManual(s16 offset[4]) {
 
 void hardReset() {
   st.unLockEprom(254);
+  delay(20);
+
   st.Reset(254);
+  delay(100);
+
   st.LockEprom(254);
+  delay(20);
 }
 
 void setID(u8 ID) {
@@ -65,10 +71,27 @@ void setID(u8 ID) {
   ping(ID);
 }
 
+void setTargetID(u8 ID, u8 targetID) {
+  /*
+   * Change the ID of the connected servo.
+   * They should be done one at a time.
+   */
+
+  st.unLockEprom(targetID);
+  delay(20);
+
+  st.writeByte(targetID, SMS_STS_ID, ID);
+  delay(100);
+
+  st.LockEprom(ID);
+  delay(20);
+
+  ping(ID);
+}
+
 void setMode(u8 ID, int mode) {
   /*
-   * Change the mode between position (0), speed (1/2) and stepper (3)
-   * control.
+   * Change the mode between position (0), speed (1/2) and stepper (3) control.
    */
 
   st.unLockEprom(ID);
@@ -81,18 +104,19 @@ void setMode(u8 ID, int mode) {
   delay(20);
 }
 
-void enableMultiLoop(u8 ID, u16 maxAngle) {
+void enableMultiLoop(u8 ID, u16 minAngle, u16 maxAngle) {
   /*
-   * Changes the maximum rotation angle of the designated servo
+   * Changes the rotation range of the designated servo.
+   * (1,1) for multi-turn with negatives values.
    */
 
   st.unLockEprom(ID);
   delay(20);
 
-  st.writeWord(ID, 9, 0);
+  st.writeWord(ID, SMS_STS_MIN_ANGLE_LIMIT_L, MAX_INCREMENT * minAngle);
   delay(100);
 
-  st.writeWord(ID, 11, 4096 * 2);
+  st.writeWord(ID, SMS_STS_MAX_ANGLE_LIMIT_L, MAX_INCREMENT * maxAngle);
   delay(100);
 
   st.LockEprom(ID);
@@ -114,12 +138,12 @@ void ping(u8 ID) {
 
   int ID_ping = st.Ping(ID);
   if (ID_ping != -1) {
-    Serial.print("Servo ID : ");
+    Serial.print("Pinging servo ID : ");
     Serial.println(ID_ping, DEC);
-    delay(100);
   } else {
-    Serial.println("Ping servo ID error!");
-    delay(2000);
+    Serial.print("Pinging servo ID : ");
+    Serial.print(ID, DEC);
+    Serial.println(" error!");
   }
 }
 
@@ -174,7 +198,8 @@ void setPositionsRaw(s16 Position[4]) {
 
 void setPositions(s16 Position[4], s16 Offset[4]) {
   /*
-   * Move the motors to desired positions with pre-determined Speed and ACC, knowing the offset.
+   * Move the motors to desired positions with pre-determined Speed and ACC,
+   * knowing the offset.
    */
 
   u8 ID[4] = {1, 2, 3, 4};
@@ -189,4 +214,16 @@ void setPositions(s16 Position[4], s16 Offset[4]) {
   };
 
   st.SyncWritePosEx(ID, 4, correctedPosition, Speed, ACC);
+}
+
+void printPositions(s16 position[4]) {
+  Serial.print(" | ");
+  Serial.print(position[0]);
+  Serial.print(" | ");
+  Serial.print(position[1]);
+  Serial.print(" | ");
+  Serial.print(position[2]);
+  Serial.print(" | ");
+  Serial.print(position[3]);
+  Serial.println(" | ");
 }

@@ -1,40 +1,54 @@
 #include "utils.h"
 
-void computePosition(float alpha, s16 position[4]) {
+float R = 47.5, r = 12.5;
+int H = 85;
+
+void computeSimplePosition(float alpha, s16 position[4]) {
   /*
    * α ∈ [0,45] (deg)
-   * returns the position of the three servo
+   * returns the position of the four servos.
    */
 
   alpha *= PI / 180;
 
-  float barrelRadius = 1;
+  float a = H - R * sin(alpha);
+  float b = R * (1 - cos(alpha));
+  float c = H + R * sin(alpha);
 
-  float plateRadius = 5;
-  float plateHeight = 10;
+  float wireLength1 = sqrt(pow(a, 2) + pow(b, 2));
+  float wireLength3 = sqrt(pow(c, 2) + pow(b, 2));
 
-  float b = plateHeight - plateRadius * sin(alpha);
-  float d = plateRadius * (1 - cos(alpha));
-  float e = plateHeight + plateRadius * sin(alpha);
+  position[0] = ((H - wireLength1) * MAX_INCREMENT) / (2 * PI * r);
+  position[1] = ((H - wireLength1) * MAX_INCREMENT) / (2 * PI * r);
+  position[2] = ((H - wireLength3) * MAX_INCREMENT) / (2 * PI * r);
+  position[3] = ((H - wireLength3) * MAX_INCREMENT) / (2 * PI * r);
+}
 
-  float wireLength1 = sqrt(pow(b, 2) + pow(d, 2));
-  float wireLength3 = sqrt(pow(e, 2) + pow(d, 2));
+void computePosition(float alpha, float beta, s16 position[4]) {
+  alpha *= PI / 180;
+  beta *= PI / 180;
 
-  position[0] =
-      ((plateHeight - wireLength1) * MAX_INCREMENT) / (2 * PI * barrelRadius);
-  position[1] =
-      ((plateHeight - wireLength1) * MAX_INCREMENT) / (2 * PI * barrelRadius);
-  position[2] =
-      ((plateHeight - wireLength3) * MAX_INCREMENT) / (2 * PI * barrelRadius);
-  position[3] =
-      ((plateHeight - wireLength3) * MAX_INCREMENT) / (2 * PI * barrelRadius);
+  float l1 = sqrt(pow(R * sin(alpha) + H, 2) + pow(R * cos(alpha) - R, 2));
 
-  Serial.print(position[0]);
-  Serial.print(" | ");
-  Serial.print(position[1]);
-  Serial.print(" | ");
-  Serial.print(position[2]);
-  Serial.print(" | ");
-  Serial.print(position[3]);
-  Serial.println(" | ");
+  float l2 =
+      sqrt(pow(-R + R * cos(beta), 2) + pow(R * sin(beta) * cos(alpha) + H, 2) +
+           pow(R * sin(beta) * sin(alpha), 2));
+
+  float l3 = sqrt(pow(-R * cos(alpha) + R, 2) + pow(H - R * sin(alpha), 2));
+
+  float l4 =
+      sqrt(pow(R - R * cos(beta), 2) + pow(H - R * sin(beta) * cos(alpha), 2) +
+           pow(R * sin(beta) * sin(alpha), 2));
+
+  position[0] = ((H - l1) * MAX_INCREMENT) / (2 * PI * r);
+  position[1] = ((H - l2) * MAX_INCREMENT) / (2 * PI * r);
+  position[2] = ((H - l3) * MAX_INCREMENT) / (2 * PI * r);
+  position[3] = ((H - l4) * MAX_INCREMENT) / (2 * PI * r);
+}
+
+void demoAlphaBeta(int N, s16 a[], s16 b[]) {
+  for (int i = 0; i < 20; i++) {
+    a[i] = 25 * sin(2 * PI * i / N);
+    b[i] = 25 * cos(2 * PI * i / N);
+  }
 }
