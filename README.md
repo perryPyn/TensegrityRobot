@@ -1,26 +1,61 @@
-# Bras articulé fonctionnant avec le principe de tenségrité
+# Articulated Arm Operating on the Tensegrity Principle
+> 🌍 Lire en [Français](README.fr.md).
+---
+
 
 <p align="center">
-  <img width="444" height="576" alt="imageCoude" src="https://github.com/user-attachments/assets/cbadc10f-2ef4-4826-b198-b3c750269679" />
+  <img width="444" height="576" alt="imageCoude" src="./assets/Robot1.jpeg" />
   <br>
-  <em>Figure 1 : Prototype du coude par tenségrité avec ses 4 servomoteurs.</em>
+  <em>Figure 1: Tensegrity robot prototype with its 4 servomotors.</em>
 </p>
 
-## 📖 À propos du projet
-L’objectif de ce projet est de créer un bras robotique poly-articulé basé sur le principe de tenségrité en faisant le design 3D et en le contrôlant avec des servomoteurs. Pour commencer nous avons donc réalisé un prototype d'articulation de coude.
-## 🛠️ Matériel requis
-* 1x Arduino Mega
-* 4x Servomoteurs FEETECH STS3215
-* Alimentation externe : Adaptateur secteur universel AC réglable 12W (reglé sur 7.5 V)
-## 📐 Principe mathématique
-L'objectif est de définir l'orientation de la plateforme mobile selon deux axes de rotation :
-* **$\alpha$ :** Le Tangage 
-* **$\beta$ :** Le Roulis
+## About the Project
+The goal of this project is to create a poly-articulated robotic arm based on the tensegrity principle. All 3D printing files are available in [`/CAD`](./CAD). The driver is available in [`/Driver`](./src/Driver).
 
-Connaissant le rayon de la base ($R = 47.5$ mm) et la hauteur au repos ($H = 12$ mm), le microcontrôleur calcule en temps réel la distance euclidienne exacte requise entre les 4 points d'ancrage de la base ($P_1$ à $P_4$) et ceux de la plateforme mobile ($B_1$ à $B_4$).
 
-Ces calculs permettent de déterminer la longueur de consigne de chaque câble que les servomoteurs doivent ensuite atteindre :
-* $P_1B_1 = \sqrt{(R - R\cos(\alpha)\cos(\beta))^2 + (R\cos(\alpha)\sin(\beta))^2 + (R\sin(\alpha) + H)^2}$
-* $P_2B_2 = \sqrt{(R\cos(\beta) - R)^2 + (R\sin(\beta))^2 + H^2}$
-* $P_3B_3 = \sqrt{(R\cos(\alpha)\sin(\beta))^2 + (R\cos(\alpha)\cos(\beta) - R)^2 + (R\sin(\alpha) + H)^2}$
-* $P_4B_4 = \sqrt{(R - R\cos(\beta))^2 + (R\sin(\beta))^2 + H^2}$
+## Hardware
+* Arduino Mega
+* 4x FEETECH STS3215 Servomotors
+* External power supply: Adjustable universal AC adapter 12 W, 7.5 V
+> ⚠️ **Power Supply Note:** The tensegrity principle requires constant mechanical tension on the cables. The motors consume current even when holding position. A 7.5 V power supply capable of delivering at least 4 A to 5 A is highly recommended to prevent voltage drops during simultaneous movements.
+
+
+## Mathematical Principle
+The objective is to define the orientation of the mobile platform along two axes of rotation:
+
+| Variable | Description |
+| :--- | :--- |
+| $\alpha$ | Pitch angle |
+| $\beta$ | Roll angle |
+| $R$ | Base radius (47.5 mm) |
+| $H$ | Distance between the two platforms (85 mm) |
+| $r$ | Winding drum radius (12.5 mm) |
+| $nb\_inc$ | Number of increments per turn of the STS3215 (4096) |
+| $l_i$ | Length of the cables at each anchor point |
+
+* The target length of each cable is calculated as follows:
+  * $l_1 = \sqrt{(R\sin(\alpha)+H)^2 + (R\cos(\alpha)-R)^2}$
+  * $l_2 = \sqrt{(R\cos(\beta)-R)^2 + (R\sin(\beta)\cos(\alpha)+H)^2 + (R\sin(\beta)\cos(\alpha))^2}$
+  * $l_3 = \sqrt{(R - R\cos(\alpha))^2 + (H-R\sin(\alpha))^2}$
+  * $l_4 = \sqrt{(R - R\cos(\beta))^2 + (H - R\sin(\beta)\cos(\alpha))^2 + (R\sin(\beta)\cos(\alpha))^2}$
+
+* The angular position of the servomotors can then be determined in terms of increments:
+  * $p_i  = \frac{H-l_i}{2\pi r}\times nb\_inc$
+
+## Software Configuration and Bus
+The FEETECH STS3215 servomotors are daisy-chained on a 1-wire asynchronous serial bus (Half-Duplex) connected to the `Serial1` port of the Arduino Mega.
+
+* **Servo bus baudrate:** 1,000,000 bps
+* **PC console baudrate:** 115,200 bps
+* **Servo IDs:** `1`, `2`, `3`, and `4`
+
+## Command Interface (Serial)
+The robot listens to text commands on the USB communication port (`Serial` at 115,200 baud). The available commands are:
+
+* **Configuration / Calibration Mode:**
+  * `p1=val`, `p2=val`, `p3=val`, `p4=val`: Adjusts the raw position (in increments) of each servomotor to align the structure.
+  * `o`: Validates the current configuration, saves the offsets, and launches the main application.
+
+* **Operation Mode:**
+  * `a=val`: Modifies the tilt angle $\alpha$ (pitch).
+  * `b=val`: Modifies the tilt angle $\beta$ (roll).

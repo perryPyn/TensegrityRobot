@@ -6,47 +6,50 @@
 float alpha = 0, beta = 0;
 s16 offset[4] = {0, 0, 0, 0};
 s16 position[4] = {0, 0, 0, 0};
-s16 p5 = 0;
-
-void setup() {
-  init();
-  initSerial();
-
-  initServoManual(offset);
-}
-
-void loop() {
-  handleAngleCommand();
-  computePosition(alpha, beta, position);
-
-  setPositions(position, offset);
-  printPositions(position);
-
-  delay(500);
-}
-
-/*---------------------------------------------------*/
-
-// s16 a[20];
-// s16 b[20];
-// int i = 0;
 
 // void setup() {
 //   init();
 //   initSerial();
 
 //   initServoManual(offset);
-//   demoAlphaBeta(20, a, b);
 // }
 
 // void loop() {
-//   computePosition(a[i], b[i], position);
+//   handleAngleCommand();
+//   computePosition(alpha, beta, position);
+
 //   setPositions(position, offset);
 //   printPositions(position);
 
-//   i = (i+1)%20;
-//   delay(180);
+//   delay(500);
 // }
+
+/* --------------------------------------------------- */
+/* --------------- Code part for demo ---------------- */
+/* --------------------------------------------------- */
+
+s16 a[20];
+s16 b[20];
+int i = 0;
+
+void setup() {
+  init();
+  initSerial();
+
+  initServoManual(offset);
+  demoAlphaBeta(20, a, b);
+}
+
+void loop() {
+  computePosition(a[i], b[i], position);
+  setPositions(position, offset);
+  printPositions(position);
+
+  i = (i+1)%20;
+  delay(180);
+}
+
+/* --------------------------------------------------- */
 
 int main(void) {
 
