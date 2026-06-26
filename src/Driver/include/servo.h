@@ -6,7 +6,8 @@
 #include <SCServo.h>
 
 void initSerial(void);
-void initServoManual(s16 offset[4]);
+void initServo(void);
+void calibrationServo(s16 offset[4]);
 void hardReset(void);
 void setID(u8 ID);
 void setTargetID(u8 ID, u8 targetID);

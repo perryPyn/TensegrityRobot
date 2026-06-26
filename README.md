@@ -4,7 +4,7 @@
 
 
 <p align="center">
-  <img width="444" height="576" alt="imageCoude" src="./assets/Robot1.jpeg" />
+  <img width="500" alt="imageCoude" src="./assets/Robot1.gif" />
   <br>
   <em>Figure 1: Tensegrity robot prototype with its 4 servomotors.</em>
 </p>
@@ -59,3 +59,9 @@ The robot listens to text commands on the USB communication port (`Serial` at 11
 * **Operation Mode:**
   * `a=val`: Modifies the tilt angle $\alpha$ (pitch).
   * `b=val`: Modifies the tilt angle $\beta$ (roll).
+
+<p align="center">
+  <img width="500" alt="imageCoude" src="./assets/Robot1.jpeg" />
+  <br>
+  <em>Figure 2 : Prototype du robot par tenségrité avec ses 4 servomoteurs.</em>
+</p>

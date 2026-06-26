@@ -28,16 +28,18 @@ s16 position[4] = {0, 0, 0, 0};
 /* --------------- Code part for demo ---------------- */
 /* --------------------------------------------------- */
 
-s16 a[20];
-s16 b[20];
 int i = 0;
+const int N = 20;
+s16 a[N];
+s16 b[N];
 
 void setup() {
   init();
   initSerial();
+  initServo(); // Should only be run once
 
-  initServoManual(offset);
-  demoAlphaBeta(20, a, b);
+  calibrationServo(offset);
+  demoAlphaBeta(N, a, b);
 }
 
 void loop() {
@@ -45,7 +47,7 @@ void loop() {
   setPositions(position, offset);
   printPositions(position);
 
-  i = (i+1)%20;
+  i = (i+1)%N;
   delay(180);
 }
 

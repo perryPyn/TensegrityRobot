@@ -4,7 +4,7 @@
 
 
 <p align="center">
-  <img width="444" height="576" alt="imageCoude" src="./assets/Robot1.jpeg" />
+  <img width="500" alt="imageCoude" src="./assets/Robot1.gif" />
   <br>
   <em>Figure 1 : Prototype du robot par tenségrité avec ses 4 servomoteurs.</em>
 </p>
@@ -59,3 +59,9 @@ Le robot écoute les commandes texte sur le port de communication USB (`Serial` 
 * **Mode Fonctionnement :**
   * `a=val` : Modifie l'angle d'inclinaison $\alpha$ (tangage).
   * `b=val` : Modifie l'angle d'inclinaison $\beta$ (roulis).
+
+<p align="center">
+  <img width="500" alt="imageCoude" src="./assets/Robot1.jpeg" />
+  <br>
+  <em>Figure 2 : Prototype du robot par tenségrité avec ses 4 servomoteurs.</em>
+</p>

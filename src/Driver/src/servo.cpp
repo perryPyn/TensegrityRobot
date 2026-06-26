@@ -5,7 +5,6 @@
 SMS_STS st;
 u16 speed = 1500;
 byte acc = 50;
-s16 precal[4] = {4600, 5100, 4700, 1100};
 
 bool areServoSetup = false;
 
@@ -22,9 +21,16 @@ void initSerial() {
   delay(100);
 }
 
-void initServoManual(s16 offset[4]) {
+void initServo() {
+  for (u8 i = 1; i < 5; i++) {
+    setMode(i, 0);
+    enableMultiLoop(i, 1, 1);
+  }
+}
+
+void calibrationServo(s16 offset[4]) {
   Serial.println("==== Entering servo setup ====");
-  s16 position[4] = {precal[0],precal[1],precal[2],precal[3]};
+  s16 position[4] = {0,0,0,0};
 
   while (!areServoSetup) {
     handleServoCommand(position);
@@ -38,9 +44,6 @@ void initServoManual(s16 offset[4]) {
 
   Serial.println("==== Exiting servo setup ====");
 }
-
-// void initServoLoad(s16 offset[4]) {
-// }
 
 void hardReset() {
   st.unLockEprom(254);
