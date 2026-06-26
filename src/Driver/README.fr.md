@@ -1,69 +1,98 @@
-# Multi-Servo Driver Configuration and Reference (SMS/STS)
-> 🌍 Lire en [Français](README.fr.md).
+# Configuration et Référence du Driver Multi-Servo (SMS/STS)
+> 🌍 Read in [English](README.md).
 ---
 
-This folder contains the low-level driver, UART Half-Duplex bus management, command console processing, and inverse kinematic models for controlling the 4 FEETECH servomotors (STS3215).
+Ce dossier contient le driver bas niveau, la gestion du bus UART Half-Duplex, le traitement de la console de commande et les modèles cinématiques inverses pour le contrôle des 4 servomoteurs FEETECH (STS3215).
 
-## Communication Bus Configuration
+## Configuration du Bus de Communication
 
-The driver orchestrates two asynchronous serial communication links on the Arduino Mega:
-* **Servomotor Bus (`Serial1`):** Half-Duplex link operating at **1,000,000 bps**. The global instance `st` from the `SMS_STS` library is bound to this port.
-* **Console Link (`Serial`):** USB serial link to the computer operating at **115,200 bps**.
+Le driver orchestre deux liaisons de communication série asynchrones sur l'Arduino Mega :
+* **Bus Servomoteurs (`Serial1`) :** Liaison Half-Duplex cadencée à **1 000 000 bps**. L'instance globale `st` de la bibliothèque `SMS_STS` est liée à ce port.
+* **Liaison Console (`Serial`) :** Liaison série USB vers l'ordinateur cadencée à **115 200 bps**.
 
-### Default Dynamic Parameters
-* **Speed (`speed`):** `1500` steps/s
-* **Acceleration (`acc`):** `50` (Feetech internal unit)
-* **Pre-calibration Positions (`precal`):** `{4600, 5100, 4700, 1100}` (used as a baseline during mechanical alignment).
-* **Servo Identifiers:** The bus synchronously targets hardware IDs `1`, `2`, `3`, and `4`.
+### Paramètres Dynamiques par Défaut
+* **Vitesse (`speed`) :** `1500` pas/s
+* **Accélération (`acc`) :** `50` (unité interne Feetech)
+* **Positions de pré-calibration (`precal`) :** `{4600, 5100, 4700, 1100}` (utilisées comme base lors de l'alignement mécanique).
+* **Identifiants Servos :** Le bus cible de manière synchrone les IDs matériels `1`, `2`, `3` et `4`.
 
 ---
 
-## Function Reference
+## Référence des Fonctions
 
-### 1. Initialization and Hardware Management
+### 1. Initialisation et Gestion Matérielle
 
 #### `void initSerial()`
-Initializes the `Serial` (115,200 baud) and `Serial1` (1,000,000 baud) ports. Assigns the Feetech library stream pointer to `Serial1`. Blocks execution for 100 ms to stabilize the link.
+Initialise les ports `Serial` (115200 bauds) et `Serial1` (1000000 bauds). Assigne le pointeur de flux de la bibliothèque Feetech sur `Serial1`. Bloque l'exécution pendant 100 ms pour stabiliser la liaison.
 
 #### `void initServoManual(s16 offset[4])`
-Blocks execution inside a `while (!areServoSetup)` loop. Continuously reads raw position commands from the serial console and applies them to the motors without offsets. Upon exiting the loop (reception of the `o` command), it calculates and increments the final system offsets.
+Bloque l'exécution dans une boucle `while (!areServoSetup)`. Lit en continu les commandes de position brute via la console série et les applique aux moteurs sans offset. À la sortie de la boucle (réception de la commande `o`), elle calcule et incrémente les offsets finaux du système.
 
 #### `void hardReset()`
-Sends a complete factory reset command using the global broadcast address `254`. Requires prior un-locking of the EPROM.
+Envoie une commande de réinitialisation d'usine complète en utilisant l'adresse de broadcast globale `254`. Nécessite un déverrouillage préalable de l'EPROM.
 
 #### `void setID(u8 ID)`
-Modifies the identifier of a single connected servo using the broadcast address `254`. *Warning: Only one servo must be present on the bus during this operation.*
+Modifie l'identifiant d'un servo unique connecté en utilisant l'adresse de broadcast `254`. *Attention : un seul servo doit être présent sur le bus lors de cette opération.*
 
 #### `void setTargetID(u8 ID, u8 targetID)`
-Modifies the ID of the target servo specified by `targetID` to assign it the new `ID` value.
+Modifie l'ID du servo cible spécifié par `targetID` pour lui attribuer la nouvelle valeur `ID`.
 
 #### `void setMode(u8 ID, int mode)`
-Configures the operating mode of the servo in its `SMS_STS_MODE` EPROM register:
-* `0`: Position Mode
-* `1` / `2`: Continuous Speed Mode
-* `3`: Stepper Mode
+Configure le mode de fonctionnement du servo dans son registre EPROM `SMS_STS_MODE` :
+* `0` : Mode Position
+* `1` / `2` : Mode Vitesse continue
+* `3` : Mode Pas-à-pas / Étape
 
 #### `void enableMultiLoop(u8 ID, u16 minAngle, u16 maxAngle)`
-Configures the minimum and maximum angle limits by writing to the EPROM. Allows switching the servo into absolute multi-turn mode (for example, with the values `1, 1`).
+Configure les limites angulaires minimales et maximales en écrivant dans l'EPROM. Permet de passer le servo en mode multi-tours absolu (par exemple avec les valeurs `1, 1`).
 
 ---
 
-### 2. Data Reading (Feedback)
+### 2. Lecture des Données (Feedback)
 
 #### `void ping(u8 ID)`
-Sends a Ping request to servo `ID`. Prints the result or an error to the serial console.
+Envoie une requête Ping au servo `ID`. Affiche le résultat ou une erreur sur la console série.
 
 #### `s16 getPosition(u8 ID)`
-Queries the servo to retrieve the current absolute position of its magnetic encoder via the `st.ReadPos()` function. Returns the value and prints it to the console.
+Interroge le servo pour obtenir la position absolue actuelle de son encodeur magnétique via la fonction `st.ReadPos()`. Retourne la valeur et l'affiche sur la console.
 
 #### `s16 getLoad(u8 ID)`
-Reads and returns the mechanical load (instantaneous torque) applied to the motor via `st.ReadLoad()`.
+Lit et retourne la charge mécanique (couple instantané) appliquée sur le moteur via `st.ReadLoad()`.
 
 #### `void printPositions(s16 position[4])`
-Formats and prints a line to the serial console containing the current positions of the 4 servos separated by vertical bars.
+Formate et affiche une ligne dans la console série contenant les positions actuelles des 4 servos séparées par des barres verticales.
 
 ---
 
-### 3. Motion Control
+### 3. Contrôle des Mouvements
 
-#### `void setPosition(u8 ID
+#### `void setPosition(u8 ID, s16 Position)`
+Envoie une consigne de position asynchrone à un seul servo avec la vitesse et l'accélération globales du driver (`RegWritePosEx`), puis déclenche le mouvement via `RegWriteAction()`.
+
+#### `void setPositionsRaw(s16 Position[4])`
+Diffuse un paquet synchrone (`SyncWritePosEx`) contenant les positions brutes fournies directement aux 4 servos (IDs 1 à 4). Les offsets logiciels ne sont pas appliqués.
+
+#### `void setPositions(s16 Position[4], s16 Offset[4])`
+Calcule les positions corrigées (`Position[i] + Offset[i]`) et transmet un paquet synchrone aux 4 servos simultanément avec les paramètres de vitesse et d'accélération globaux.
+
+---
+
+### 4. Modèles Cinématiques et Utilitaires (`utils.cpp`)
+
+#### `void computeSimplePosition(float alpha, s16 position[4])`
+Calcule le modèle cinématique inverse simplifié sur un seul axe. Convertit l'angle de tangage `alpha` (en degrés) en longueurs de câbles théoriques, puis détermine les consignes en incréments pour les 4 servos.
+
+#### `void computePosition(float alpha, float beta, s16 position[4])`
+Calcule le modèle cinématique inverse complet prenant en compte le tangage `alpha` et le roulis `beta` (en degrés). Remplit le tableau `position` avec les coordonnées articulaires (incréments) requises pour les 4 servos.
+
+#### `void demoAlphaBeta(int N, s16 a[], s16 b[])`
+Génère une trajectoire de démonstration en quadrature de phase (signaux sinus et cosinus d'amplitude 25) répartie sur `N` échantillons pour tester le comportement dynamique.
+
+---
+
+## Gestion des Commandes Console (`console.cpp`)
+
+Le driver intègre un parseur de chaînes de caractères basé sur le protocole `Clé=Valeur`.
+
+* **`void handleServoCommand(s16 position[4])` :** Actif pendant la phase d'initialisation. Interprète les messages du type `p1=val` à `p4=val` pour modifier le tableau de position brut. La réception du caractère seul `o` passe la variable globale `areServoSetup` à `true` pour valider l'alignement.
+* **`void handleAngleCommand()` :** Actif pendant la boucle principale. Interprète les messages du type `a=val` et `b=val` pour mettre à jour directement les variables globales d'angles `alpha` et `beta`.
