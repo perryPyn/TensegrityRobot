@@ -1,4 +1,5 @@
 #include "servo.h"
+#include "HardwareSerial.h"
 #include "console.h"
 #include "utils.h"
 
@@ -30,7 +31,7 @@ void initServo() {
 
 void calibrationServo(s16 offset[4]) {
   Serial.println("==== Entering servo setup ====");
-  s16 position[4] = {0,0,0,0};
+  s16 position[4] = {0, 0, 0, 0};
 
   while (!areServoSetup) {
     handleServoCommand(position);
@@ -105,6 +106,12 @@ void setMode(u8 ID, int mode) {
 
   st.LockEprom(ID);
   delay(20);
+
+  Serial.print("Changed servo ");
+  Serial.print(ID);
+  Serial.print(" mode for ");
+  Serial.print("Changed servo");
+  Serial.println(mode);
 }
 
 void enableMultiLoop(u8 ID, u16 minAngle, u16 maxAngle) {
@@ -124,6 +131,9 @@ void enableMultiLoop(u8 ID, u16 minAngle, u16 maxAngle) {
 
   st.LockEprom(ID);
   delay(20);
+
+  Serial.print("Enabled multi-loop mode for servo ");
+  Serial.println(ID);
 }
 
 // void enableTorque(u8 ID, u8 state) {
