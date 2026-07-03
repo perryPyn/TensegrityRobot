@@ -1,5 +1,4 @@
 #include "console.h"
-#include "HardwareSerial.h"
 
 void handleServoCommand(s16 position[4]) {
   if (Serial.available() > 0) {
