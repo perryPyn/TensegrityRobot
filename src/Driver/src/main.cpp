@@ -6,7 +6,7 @@
 
 float alpha = 0, beta = 0;
 s16 offset[4] = {1370, 740, 60, 1340};
-s16 position[4] = {0, 0, 0, 0};
+s16 position[4] = {300, 300, -300, -300};
 
 void setup() {
   init();
