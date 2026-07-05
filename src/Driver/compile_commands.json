@@ -180,19 +180,49 @@
         "output": ".pio/build/megaatmega2560/lib1f8/FTServo/SMS_STS.cpp.o"
     },
     {
-        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/src/main.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/megaatmega2560/FTServo/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega src/main.cpp",
+        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/lib6f7/Wire/Wire.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega /home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src/Wire.cpp",
+        "directory": "/home/perrypyn/Repositories/TensegrityRobot/src/Driver",
+        "file": "/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src/Wire.cpp",
+        "output": ".pio/build/megaatmega2560/lib6f7/Wire/Wire.cpp.o"
+    },
+    {
+        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-gcc -o .pio/build/megaatmega2560/lib6f7/Wire/utility/twi.c.o -c -std=gnu11 -fno-fat-lto-objects -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega /home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src/utility/twi.c",
+        "directory": "/home/perrypyn/Repositories/TensegrityRobot/src/Driver",
+        "file": "/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src/utility/twi.c",
+        "output": ".pio/build/megaatmega2560/lib6f7/Wire/utility/twi.c.o"
+    },
+    {
+        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/lib757/SparkFun_MMA8452Q/SparkFun_MMA8452Q.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -I.pio/libdeps/megaatmega2560/SparkFun_MMA8452Q/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega .pio/libdeps/megaatmega2560/SparkFun_MMA8452Q/src/SparkFun_MMA8452Q.cpp",
+        "directory": "/home/perrypyn/Repositories/TensegrityRobot/src/Driver",
+        "file": ".pio/libdeps/megaatmega2560/SparkFun_MMA8452Q/src/SparkFun_MMA8452Q.cpp",
+        "output": ".pio/build/megaatmega2560/lib757/SparkFun_MMA8452Q/SparkFun_MMA8452Q.cpp.o"
+    },
+    {
+        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/src/console.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/megaatmega2560/SparkFun_MMA8452Q/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/megaatmega2560/FTServo/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega src/console.cpp",
+        "directory": "/home/perrypyn/Repositories/TensegrityRobot/src/Driver",
+        "file": "src/console.cpp",
+        "output": ".pio/build/megaatmega2560/src/console.cpp.o"
+    },
+    {
+        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/src/imu.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/megaatmega2560/SparkFun_MMA8452Q/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/megaatmega2560/FTServo/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega src/imu.cpp",
+        "directory": "/home/perrypyn/Repositories/TensegrityRobot/src/Driver",
+        "file": "src/imu.cpp",
+        "output": ".pio/build/megaatmega2560/src/imu.cpp.o"
+    },
+    {
+        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/src/main.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/megaatmega2560/SparkFun_MMA8452Q/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/megaatmega2560/FTServo/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega src/main.cpp",
         "directory": "/home/perrypyn/Repositories/TensegrityRobot/src/Driver",
         "file": "src/main.cpp",
         "output": ".pio/build/megaatmega2560/src/main.cpp.o"
     },
     {
-        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/src/servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/megaatmega2560/FTServo/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega src/servo.cpp",
+        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/src/servo.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/megaatmega2560/SparkFun_MMA8452Q/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/megaatmega2560/FTServo/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega src/servo.cpp",
         "directory": "/home/perrypyn/Repositories/TensegrityRobot/src/Driver",
         "file": "src/servo.cpp",
         "output": ".pio/build/megaatmega2560/src/servo.cpp.o"
     },
     {
-        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/src/utils.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/megaatmega2560/FTServo/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega src/utils.cpp",
+        "command": "/home/perrypyn/.platformio/packages/toolchain-atmelavr/bin/avr-g++ -o .pio/build/megaatmega2560/src/utils.cpp.o -c -fno-exceptions -fno-threadsafe-statics -fpermissive -std=gnu++11 -mmcu=atmega2560 -Os -Wall -ffunction-sections -fdata-sections -flto -DPLATFORMIO=60119 -DARDUINO_AVR_MEGA2560 -DF_CPU=16000000L -DARDUINO_ARCH_AVR -DARDUINO=10808 -Iinclude -Isrc -I.pio/libdeps/megaatmega2560/SparkFun_MMA8452Q/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/libraries/Wire/src -I.pio/libdeps/megaatmega2560/FTServo/src -I/home/perrypyn/.platformio/packages/framework-arduino-avr/cores/arduino -I/home/perrypyn/.platformio/packages/framework-arduino-avr/variants/mega src/utils.cpp",
         "directory": "/home/perrypyn/Repositories/TensegrityRobot/src/Driver",
         "file": "src/utils.cpp",
         "output": ".pio/build/megaatmega2560/src/utils.cpp.o"

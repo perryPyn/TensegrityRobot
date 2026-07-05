@@ -1,6 +1,8 @@
 #ifndef SERVO_H
 #define SERVO_H
 
+#include "console.h"
+#include "utils.h"
 #include <Arduino.h>
 #include <HardwareSerial.h>
 #include <SCServo.h>

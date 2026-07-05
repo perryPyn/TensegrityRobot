@@ -1,7 +1,4 @@
 #include "servo.h"
-#include "HardwareSerial.h"
-#include "console.h"
-#include "utils.h"
 
 SMS_STS st;
 u16 speed = 1500;
