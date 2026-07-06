@@ -5,8 +5,9 @@
 #include <SparkFun_MMA8452Q.h>
 #include <Wire.h>
 
+#define GAMMA 0.15
+
 void initIMU();
-void readIMU(float &pitch, float &roll);
+void readIMU(float *pitch, float *roll);
 
 #endif
-#define IMU_H

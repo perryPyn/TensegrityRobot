@@ -1,4 +1,5 @@
 #include "servo.h"
+#include "console.h"
 
 SMS_STS st;
 u16 speed = 1500;
@@ -31,6 +32,7 @@ void calibrationServo(s16 offset[4]) {
   s16 position[4] = {0, 0, 0, 0};
 
   while (!areServoSetup) {
+    handleInitCommand(&areServoSetup);
     handleServoCommand(position);
     setPositionsRaw(position);
     delay(200);
