@@ -1,5 +1,7 @@
 #include "servo.h"
+#include "HardwareSerial.h"
 #include "console.h"
+#include "imu.h"
 
 SMS_STS st;
 u16 speed = 1500;
@@ -28,19 +30,30 @@ void initServo() {
 }
 
 void calibrationServo(s16 offset[4]) {
+  MMA8452Q accel;
+
   Serial.println("==== Entering servo setup ====");
-  s16 position[4] = {0, 0, 0, 0};
+  s16 position[4] = {offset[0], offset[1], offset[2], offset[3]};
 
   while (!areServoSetup) {
     handleInitCommand(&areServoSetup);
     handleServoCommand(position);
+
     setPositionsRaw(position);
+
+    float rawAlpha = 0, rawBeta = 0;
+    readIMU(&rawBeta, &rawAlpha);
+    Serial.print("alpha -> ");
+    Serial.print(rawAlpha);
+    Serial.print(" | beta -> ");
+    Serial.println(rawBeta);
+
     delay(200);
   }
-  offset[0] += position[0];
-  offset[1] += position[1];
-  offset[2] += position[2];
-  offset[3] += position[3];
+  offset[0] = position[0];
+  offset[1] = position[1];
+  offset[2] = position[2];
+  offset[3] = position[3];
 
   Serial.println("==== Exiting servo setup ====");
 }
