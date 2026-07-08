@@ -3,6 +3,7 @@
 #include "imu.h"
 #include "pid.h"
 #include "servo.h"
+#include "utils.h"
 #include <Arduino.h>
 #include <HardwareSerial.h>
 
@@ -15,8 +16,12 @@ pid pidBeta;
 
 unsigned long lastLoopTime = 0;
 
+// const int N = 20;
+// s16 a[N], b[N];
+// int i = 0;
+
 void setup() {
-  float kp = 0.049f, ki = 0.140f, kd = 0.0168f, limit = 15.0f;
+  float kp = 0.097, ki = 0.140f, kd = 0.0168f, limit = 30.0f;
 
   init();
   initSerial();
@@ -28,6 +33,8 @@ void setup() {
   Serial.println("targetAlpha,rawAlpha,cmdAlpha,targetBeta,rawBeta,cmdBeta");
 
   // calibrationServo(offset);
+
+  // demoAlphaBeta(N, a, b);
 }
 
 void loop() {
@@ -36,6 +43,9 @@ void loop() {
   // Set loop frequency to 50 Hz
   if (currentTime - lastLoopTime >= LOOP_PERIOD) {
     handleAngleCommand(&targetAlpha, &targetBeta);
+
+    // targetAlpha = a[i];
+    // targetBeta = b[i];
 
     // Get raw angles mesurement
     float rawAlpha = 0, rawBeta = 0;
@@ -65,6 +75,8 @@ void loop() {
     Serial.print(rawBeta);
     Serial.print(",");
     Serial.println(cmdBeta);
+
+    // i = (i + 1) % N;
   }
 }
 
