@@ -4,8 +4,8 @@
 #include "imu.h"
 
 SMS_STS st;
-u16 speed = 1500;
-byte acc = 50;
+u16 speed = 15000;
+byte acc = 55;
 
 bool areServoSetup = false;
 

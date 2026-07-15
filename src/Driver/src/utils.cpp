@@ -1,7 +1,7 @@
 #include "utils.h"
 
-float R = 47.5, r = 12.5;
-int H = 85;
+const float R = 45, r = 13.5;
+const int H = 100;
 
 void computePosition(float alpha, float beta, s16 position[4]) {
   alpha *= PI / 180;

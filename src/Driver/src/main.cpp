@@ -9,7 +9,7 @@
 
 const float Te = 0.02f;
 float targetAlpha = 0, targetBeta = 0;
-s16 offset[4] = {300, 500, 400, 2680};
+s16 offset[4] = {500, 700, 800, 2900};
 s16 position[4] = {0, 0, 0, 0};
 pid pidAlpha;
 pid pidBeta;
@@ -21,7 +21,7 @@ unsigned long lastLoopTime = 0;
 // int i = 0;
 
 void setup() {
-  float kp = 0.097, ki = 0.140f, kd = 0.0168f, limit = 30.0f;
+  float kp = 0.048, ki = 0.140f, kd = 0.0168f, limit = 30.0f;
 
   init();
   initSerial();
@@ -32,7 +32,7 @@ void setup() {
 
   Serial.println("targetAlpha,rawAlpha,cmdAlpha,targetBeta,rawBeta,cmdBeta");
 
-  // calibrationServo(offset);
+  calibrationServo(offset);
 
   // demoAlphaBeta(N, a, b);
 }
